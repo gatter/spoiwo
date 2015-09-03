@@ -21,7 +21,7 @@ lazy val pomDetails = <url>https://github.com/norbert-radyk/spoiwo/</url>
 
 lazy val commonSettings = Seq(
   organization := "com.norbitltd",
-  scalaVersion := "2.10.5",
+  scalaVersion := "2.11.7",
   publishMavenStyle := true,
   publishArtifact in Test := false,
   publishTo := {
@@ -38,7 +38,7 @@ lazy val commonSettings = Seq(
     "commons-logging" % "commons-logging" % "1.2",
     "joda-time" % "joda-time" % "2.7",
     "org.joda" % "joda-convert" % "1.7",
-    "org.scalatest" % "scalatest_2.10" % "2.2.4"
+    "org.scalatest" % "scalatest_2.11" % "2.2.4"
   )
 )
 

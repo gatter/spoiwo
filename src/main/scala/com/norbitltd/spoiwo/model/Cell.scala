@@ -4,6 +4,7 @@ import java.util.{Calendar, Date}
 import org.joda.time.{LocalDate, DateTime}
 import com.norbitltd.spoiwo.model.enums.CellStyleInheritance
 
+
 sealed class CellValueType[T]
 object CellValueType {
   implicit object StringWitness extends CellValueType[String]
@@ -15,11 +16,12 @@ object CellValueType {
   implicit object DateTimeWitness extends CellValueType[DateTime]
   implicit object LocalDateWitness extends CellValueType[LocalDate]
   implicit object CalendarWitness extends CellValueType[Calendar]
+  implicit object NothingWitness extends CellValueType[None.type]
 }
 
 object Cell {
 
-  lazy val Empty = apply("")
+  lazy val Empty = apply(None)
 
   def apply[T : CellValueType](value : T, index : java.lang.Integer = null, style : CellStyle = null, styleInheritance : CellStyleInheritance = CellStyleInheritance.CellThenRowThenColumnThenSheet) : Cell = {
     val indexOption = Option(index).map(_.intValue)
@@ -40,6 +42,7 @@ object Cell {
       case v : DateTime => DateCell(v.toDate, indexOption, styleOption, styleInheritance)
       case v : LocalDate => DateCell(v.toDate, indexOption, styleOption, styleInheritance)
       case v : Calendar => CalendarCell(v, indexOption, styleOption, styleInheritance)
+      case _ => EmptyCell(indexOption, styleOption, styleInheritance)
     }
   }
 }
@@ -132,4 +135,14 @@ case class CalendarCell private[model](value: Calendar, index: Option[Int], styl
     copy(value.asInstanceOf[Calendar], index, style)
 
   protected def valueToString() = value.toString
+}
+
+case class EmptyCell private[model](index: Option[Int], style: Option[CellStyle], styleInheritance : CellStyleInheritance)
+  extends Cell
+  {
+  val value = None
+  def copyCell(value : Any = value, index : Option[Int] = index, style : Option[CellStyle] = style) : Cell =
+    copy(index, style)
+
+  protected def valueToString() = ""
 }

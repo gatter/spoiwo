@@ -68,6 +68,7 @@ object Model2XlsxConversions {
       case BooleanCell(value, _, _, _) => cell.setCellValue(value)
       case DateCell(value, _, _, _) => setDateCell(c, cell, value)
       case CalendarCell(value, _, _, _) => setCalendarCell(c, cell, value)
+      case EmptyCell(_, _, _) =>
     }
     cell
   }

@@ -59,5 +59,6 @@ object Model2CsvConversions {
     case x : DateCell => LocalDate.fromDateFields(x.value).toString(properties.defaultDateFormat)
     case x : CalendarCell => LocalDate.fromCalendarFields(x.value).toString(properties.defaultDateFormat)
     case x : FormulaCell => throw new IllegalArgumentException("Use of formulas not allowed when converting to CSV format!")
+    case x : EmptyCell => ""
   }
 }
